@@ -1,7 +1,6 @@
 const { Router } = require('express');
-const { useReducer } = require('react');
+const userRouter = Router();
 
-const userRouter = require();
 
 
 userRouter.post('/signup', (req, res) => {
