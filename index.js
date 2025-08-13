@@ -1,5 +1,6 @@
 const express = require('express');
 const app = express();
+const mongoose = require("mongoose")
 
 const { userRouter } = require('./routes/users');
 const { courseRouter } = require('./routes/course');
@@ -11,6 +12,11 @@ app.use('/user', userRouter);
 app.use('/course', courseRouter);
 app.use('/admin', adminRouter);
 
-app.listen(3000, () => {
-    console.log('Server running on http://localhost:3000');
-});
+async function main() {
+    await mongoose.connect("mongodb+srv://Haze2k03:92fPfNf9ciAs8nev@cluster0.dwb4p1i.mongodb.net/coursera-app")
+    app.listen(3000)
+    console.log("Listening on port 3000")
+}
+
+
+main()
