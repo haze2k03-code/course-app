@@ -1,6 +1,8 @@
 const { Router } = require('express');
 const adminRouter = Router();
 
+const {adminModel} = require("../database/db")
+
 
 
 adminRouter.post('/signup', (req, res) => {
@@ -25,4 +27,4 @@ adminRouter.get('/course/bulk', (req, res) => {
 
 
 
-module.exports = { adminRouter };
+module.exports = { adminRouter:adminRouter };

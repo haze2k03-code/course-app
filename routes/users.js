@@ -13,4 +13,4 @@ userRouter.get('/purchases', (req, res) => {
     res.json({ message: "User purchases endpoint" });
 });
 
-module.exports = { userRouter };
+module.exports = {userRouter:userRouter};
