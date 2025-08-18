@@ -1,9 +1,10 @@
 const { Router } = require('express');
 const userRouter = Router();
+require('dotenv').config();
 const { userModel } = require('../database/db')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
-const {JWT_USER_SECRET} = require("../config");
+const JWT_USER_SECRET = process.env.JWT_USER_SECRET
 const {adminMiddleware} = require("../middleware/user")
 
 userRouter.post('/signup', async (req, res) => {

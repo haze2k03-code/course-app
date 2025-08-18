@@ -1,4 +1,5 @@
-const {JWT_ADMIN_SECRET} = require("../config")
+require('dotenv').config();
+const JWT_ADMIN_SECRET = process.env.JWT_ADMIN_SECRET;
 const jwt = require('jsonwebtoken');
 const admin = require("../routes/admin");
 
