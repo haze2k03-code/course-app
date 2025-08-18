@@ -1,3 +1,5 @@
+require('dotenv').config()
+console.log(process.env.MONGO_URL)
 const express = require('express');
 const app = express();
 const mongoose = require("mongoose")
@@ -17,7 +19,7 @@ app.use('/admin', adminRouter);
 
 async function main() {
     // use dotenv here afterwards
-    await mongoose.connect("mongodb+srv://Haze2k03:92fPfNf9ciAs8nev@cluster0.dwb4p1i.mongodb.net/coursera-app")
+    await mongoose.connect(process.env.MONGO_URL);
     app.listen(3000)
     console.log("Listening on port 3000")
 }
