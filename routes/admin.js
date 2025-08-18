@@ -6,7 +6,8 @@ const {adminModel} = require("../database/db")
 const {courseModel} = require("../database/db")
 const jwt = require('jsonwebtoken')
 const JWT_ADMIN_SECRET = process.env.JWT_ADMIN_SECRET
-const {adminMiddleware} = require("../middleware/admin")
+const {adminMiddleware} = require("../middleware/admin");
+const admin = require('../middleware/admin');
 
 
 
@@ -81,11 +82,37 @@ adminRouter.post('/course', adminMiddleware,async (req, res) => {
     })
    
 });
-adminRouter.put('/course', (req, res) => {
-    
+adminRouter.put('/course',adminMiddleware,async (req, res) => {
+    const adminId = req.userId;
+    const { title , description, imageUrl,price,courseId } = req.body;
+    const course = await courseModel.updateOne({
+        _id:courseId, // if any other admin sends other admins courses id
+        creatorId:adminId // this field will miss match 
+    },{
+    title: title,
+    description: description,
+    price: price,
+    imageUrl: imageUrl
+    })
+
+    res.json({
+        message:"course updated",
+        courseId : course._id
+    })
+
 });
-adminRouter.get('/course/bulk', (req, res) => {
-    
+adminRouter.get('/course/bulk',adminMiddleware, async  (req, res) => {
+    const adminId = req.userId;
+    const course = await courseModel.find({
+        _id:courseId,
+        creatorId:adminId
+    },{
+        title:title,
+        description:description,
+        imageUrl:imageUrl,
+        price:price
+    })
+
 });
 
 
