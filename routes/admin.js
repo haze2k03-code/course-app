@@ -1,25 +1,73 @@
 const { Router } = require('express');
 const adminRouter = Router();
-
+const bcrypt = require('bcrypt')
 const {adminModel} = require("../database/db")
+const jwt = require('jsonwebtoken')
+const JWT_SECRET = "thefallenleavestellastory"
 
 
 
-adminRouter.post('/signup', (req, res) => {
-    res.json({ message: "Sign up endpoint" });
+
+adminRouter.post('/signup', async (req, res) => {
+    const {name , email , password} = req.body;
+    let errorthrown = false;
+    try{
+        const hashedpass = await bcrypt.hash(password,5);
+
+        await adminModel.create({
+            name:name,
+            email:email,
+            password:hashedpass
+        })
+
+        
+
+    }catch(e){
+        res.json({
+            message:"user not signed up"}
+        )
+        errorthrown = true;
+        console.log(e);
+    }
+
+    if(!errorthrown){
+        res.json({
+            message:"Admin signed in !"
+        })
+    }
+     
+    
 });
 
-adminRouter.post('/signin', (req, res) => {
-    res.json({ message: "Sign in endpoint" });
+adminRouter.post('/signin', async (req, res) => {
+    const { name , password, email } = req.body;
+    const user = await adminModel.findOne({
+        email: email
+    })
+    if (!user) {
+        res.json({ message: "user DNE" })
+    }
+
+    const matchpassword = await bcrypt.compare(password, user.password);
+    if (matchpassword) {
+        const token = jwt.sign({ id: user._id }, JWT_SECRET);
+        res.json({
+            token: token,
+            message: "You're signed in !"
+        })
+    } else {
+        res.status(403).json({ message: "incorrect cred" });
+
+    }
 });
-adminRouter.post('/createcourse', (req, res) => {
-    res.json({ message: "Sign in endpoint" });
+adminRouter.post('/course', (req, res) => {
+   
 });
-adminRouter.put('/changecourse', (req, res) => {
-    res.json({ message: "Sign in endpoint" });
+adminRouter.put('/course', (req, res) => {
+    
 });
 adminRouter.get('/course/bulk', (req, res) => {
-    res.json({ message: "Sign in endpoint" });
+    
 });
 
 

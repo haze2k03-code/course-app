@@ -7,16 +7,14 @@ const ObjectId = mongoose.Types.ObjectId;
 const userSchema = new Schema({
     email: { type: String, unique: true, required: true },
     password: { type: String, required: true },
-    firstName: { type: String, required: true },
-    lastName: { type: String, required: true }
+    name: { type: String, required: true }
 });
 
 // Admin Schema
 const adminSchema = new Schema({
     email: { type: String, unique: true, required: true },
     password: { type: String, required: true },
-    firstName: { type: String, required: true },
-    lastName: { type: String, required: true }
+    name: { type: String, required: true }
 });
 
 // Course Schema
