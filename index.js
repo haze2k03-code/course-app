@@ -20,7 +20,7 @@ async function main() {
     // use dotenv here afterwards
     await mongoose.connect(process.env.MONGO_URL);
     app.listen(3000)
-    console.log("Listening on port 3000")
+    console.log("Hosted on port 3000")
 }
 
 

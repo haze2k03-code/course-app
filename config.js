@@ -1,1 +1,1 @@
-///used to keep jwt secrets before .env file
+// used to keep secrets and mongo url before .env introduction 
