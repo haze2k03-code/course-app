@@ -3,7 +3,7 @@ const adminRouter = Router();
 const bcrypt = require('bcrypt')
 const {adminModel} = require("../database/db")
 const jwt = require('jsonwebtoken')
-const JWT_SECRET = "thefallenleavestellastory"
+const JWT_ADMIN_SECRET = "ibecametheeldenlord"
 
 
 
@@ -41,16 +41,16 @@ adminRouter.post('/signup', async (req, res) => {
 
 adminRouter.post('/signin', async (req, res) => {
     const { password, email } = req.body;
-    const user = await adminModel.findOne({
+    const admin = await adminModel.findOne({
         email: email
     })
-    if (!user) {
+    if (!admin) {
         res.json({ message: "user DNE" })
     }
 
-    const matchpassword = await bcrypt.compare(password, user.password);
+    const matchpassword = await bcrypt.compare(password, admin.password);
     if (matchpassword) {
-        const token = jwt.sign({ id: user._id }, JWT_SECRET);
+        const token = jwt.sign({ id: admin._id }, JWT_ADMIN_SECRET);
         res.json({
             token: token,
             message: "You're signed in !"

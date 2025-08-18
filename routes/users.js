@@ -3,7 +3,7 @@ const userRouter = Router();
 const { userModel } = require('../database/db')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
-const JWT_SECRET = "thefallenleavestellastory"
+const JWT_USER_SECRET = "thefallenleavestellastory"
 
 userRouter.post('/signup', async (req, res) => {
     const { name, email, password } = req.body;
@@ -47,7 +47,7 @@ userRouter.post('/signin', async (req, res) => {
 
     const matchpassword = await bcrypt.compare(password, user.password);
     if (matchpassword) {
-        const token = jwt.sign({ id: user._id }, JWT_SECRET);
+        const token = jwt.sign({ id: user._id }, JWT_USER_SECRET);
         res.json({
             token: token,
             message: "You're signed in !"
