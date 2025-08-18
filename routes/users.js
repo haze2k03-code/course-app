@@ -1,11 +1,11 @@
 const { Router } = require('express');
 const userRouter = Router();
 require('dotenv').config();
-const { userModel } = require('../database/db')
+const { userModel, purchaseModel } = require('../database/db')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
 const JWT_USER_SECRET = process.env.JWT_USER_SECRET
-const {adminMiddleware} = require("../middleware/user")
+const {adminMiddleware, userMiddleware} = require("../middleware/user")
 
 userRouter.post('/signup', async (req, res) => {
     const { name, email, password } = req.body;
@@ -60,8 +60,12 @@ userRouter.post('/signin', async (req, res) => {
     }
 });
 
-userRouter.get('/purchases', (req, res) => {
-    res.json({ message: "User purchases endpoint" });
+userRouter.get('/purchases', userMiddleware, async (req, res) => {
+    const userId = req.userId;
+    const purchases = await purchaseModel.find({
+        userId:user
+    })
+    res.json({purchases});
 });
 
 module.exports = { userRouter: userRouter };
