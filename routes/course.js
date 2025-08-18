@@ -7,7 +7,7 @@ courseRouter.post('/purchase',userMiddleware,async (req, res) => {
     const userId = req.userId;
     const courseId = req.body.courseId;
     //   payment check should be here 
-    const purchase = await purchaseModel.creat({
+    const purchase = await purchaseModel.create({
         userId:userId,
         courseId:courseId
     })

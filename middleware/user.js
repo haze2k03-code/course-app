@@ -1,4 +1,5 @@
-const {JWT_USER_SECRET} = require('../config');
+require("dotenv").config();
+const JWT_USER_SECRET = process.env.JWT_USER_SECRET;
 const jwt = require('jsonwebtoken')
 
 function userMiddleware(req,res,next){

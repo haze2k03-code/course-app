@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const userRouter = Router();
 require('dotenv').config();
-const { userModel, purchaseModel } = require('../database/db')
+const { userModel, purchaseModel, courseModel } = require('../database/db')
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken')
 const JWT_USER_SECRET = process.env.JWT_USER_SECRET
@@ -63,9 +63,13 @@ userRouter.post('/signin', async (req, res) => {
 userRouter.get('/purchases', userMiddleware, async (req, res) => {
     const userId = req.userId;
     const purchases = await purchaseModel.find({
-        userId:user
+        userId:userId
     })
-    res.json({purchases});
+
+    const coursesData = await courseModel.find({
+        _id:{$in:purchases.map(x=>x.courseId)}
+    })
+    res.json({coursesData});
 });
 
 module.exports = { userRouter: userRouter };
